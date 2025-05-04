@@ -1,1 +1,90 @@
+// SnackShop - Web bán đồ ăn vặt
+// Công nghệ: React + Tailwind CSS (mobile-first, tối ưu tốc độ)
+
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+
+export default function SnackShop() {
+  const [cart, setCart] = useState([]);
+  const products = [
+    { id: 1, name: "Snack rong biển", price: 25000, image: "/snack1.jpg" },
+    { id: 2, name: "Bánh quy bơ", price: 30000, image: "/snack2.jpg" },
+    { id: 3, name: "Kẹo dẻo trái cây", price: 20000, image: "/snack3.jpg" },
+  ];
+
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  return (
+    <main className="bg-orange-50 min-h-screen text-gray-800 font-sans">
+      <header className="bg-pink-200 p-4 shadow-md">
+        <h1 className="text-2xl font-bold text-center text-orange-600">
+          🍬 Snack Shop - Đồ ăn vặt siêu ngon
+        </h1>
+        <p className="text-center text-sm">Giao nhanh - Giá tốt - Đủ vị lựa chọn</p>
+      </header>
+
+      <section className="p-4">
+        <h2 className="text-xl font-semibold text-yellow-600 mb-2">
+          Ưu đãi hôm nay 🎉
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {products.map((p) => (
+            <Card key={p.id} className="bg-white rounded-2xl shadow-lg">
+              <img
+                src={p.image}
+                alt={p.name}
+                className="rounded-t-2xl w-full h-40 object-cover"
+              />
+              <CardContent className="p-4">
+                <h3 className="text-lg font-bold mb-1">{p.name}</h3>
+                <p className="text-orange-600 font-semibold">{p.price.toLocaleString()}đ</p>
+                <Button
+                  className="mt-2 bg-yellow-400 hover:bg-yellow-500 text-white w-full"
+                  onClick={() => addToCart(p)}
+                >
+                  Thêm vào giỏ 🛒
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="p-4 bg-pink-100 mt-4 rounded-t-3xl">
+        <h2 className="text-xl font-semibold text-pink-700 mb-2">
+          🛒 Giỏ hàng của bạn
+        </h2>
+        {cart.length === 0 ? (
+          <p className="text-sm text-gray-600">Chưa có sản phẩm nào</p>
+        ) : (
+          <ul className="space-y-2">
+            {cart.map((item, index) => (
+              <li key={index} className="flex justify-between border-b pb-1">
+                <span>{item.name}</span>
+                <span>{item.price.toLocaleString()}đ</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="text-right font-bold mt-2 text-orange-700">
+          Tổng: {total.toLocaleString()}đ
+        </div>
+        <Button className="mt-2 w-full bg-pink-500 hover:bg-pink-600 text-white">
+          Thanh toán ngay 💳
+        </Button>
+      </section>
+
+      <footer className="p-4 text-center text-sm text-gray-500">
+        © 2025 Snack Shop | <a className="text-pink-500 underline" href="#">Liên hệ</a> | <a className="text-pink-500 underline" href="#">Blog</a>
+      </footer>
+    </main>
+  );
+}
 
